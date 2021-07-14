@@ -20,4 +20,21 @@ def add_to_zero(nums):
 
     return False
 
+def concat_lists(list1, list2):
+    """Combine lists."""
 
+    return list1 + list2
+
+
+def deduped(items):
+    """Return new (ordered) list from items with duplicates removed."""
+
+    noted = set()
+    deduped = [] 
+
+    for i in items:
+        if i not in noted:
+            deduped.append(i)
+            noted.add(i)
+    
+    return deduped
