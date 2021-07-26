@@ -158,48 +158,72 @@ begin_time = datetime.datetime.now()
 #         # if needle not in haystack
 #         return -1
 
-class Node():
-    def __init__(self, data):
-        self.data = data
-        self.next = None
+# class Node():
+#     def __init__(self, data):
+#         self.data = data
+#         self.next = None
 
-class LinkedList():
-    def __init__(self):
-        "Initiate a singly linked list."
+# class LinkedList():
+#     def __init__(self):
+#         "Initiate a singly linked list."
 
-        self.head = None
-        self.tail = None
+#         self.head = None
+#         self.tail = None
     
-    def append(self, item):
-        "Add item to singly linked list."
+#     def append(self, item):
+#         "Add item to singly linked list."
 
-        if self.head:
-            self.tail.next = item
-            self.tail = item
+#         if self.head:
+#             self.tail.next = item
+#             self.tail = item
+#         else:
+#             self.head = item
+#             self.tail = item
+
+#     def has_item(self, item):
+#         """Is a specific item in a singly linked list?"""
+    
+#         curr = self.head
+        
+#         while curr:
+#             if curr == item:
+#                 return True
+#             curr = curr.next
+        
+#         return False
+
+# ll = LinkedList()
+# ll.append(Node(1))
+# ll.append(Node(5))
+# a = Node(6)
+# ll.append(a)
+# ll.append(Node(2))
+# print(ll.has_item(a))
+
+def searchInsert(nums, target):
+    """Return the index of target in nums, or index to insert.
+
+    searchInsert([1,3,5,6], 5)
+    """
+
+    lst = nums
+    index = 0
+    
+    import pdb; pdb.set_trace()
+    
+    while len(lst) > 1:
+        midpoint = len(lst)//2
+        if lst[midpoint] > target:
+            lst = lst[:midpoint]
         else:
-            self.head = item
-            self.tail = item
-
-    def has_item(self, item):
-        """Is a specific item in a singly linked list?"""
+            lst = lst[midpoint:]
+            index += midpoint
     
-        curr = self.head
-        
-        while curr:
-            if curr == item:
-                return True
-            curr = curr.next
-        
-        return False
-
-
-ll = LinkedList()
-ll.append(Node(1))
-ll.append(Node(5))
-a = Node(6)
-ll.append(a)
-ll.append(Node(2))
-print(ll.has_item(a))
+    if lst[0] >= target:
+        return index
+    
+    if lst[0] < target:
+        return index + 1                                   
 
 if __name__ == "__main__":
     import doctest
