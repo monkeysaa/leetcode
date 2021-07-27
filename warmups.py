@@ -200,30 +200,30 @@ begin_time = datetime.datetime.now()
 # ll.append(Node(2))
 # print(ll.has_item(a))
 
-def searchInsert(nums, target):
-    """Return the index of target in nums, or index to insert.
+# def searchInsert(nums, target):
+#     """Return the index of target in nums, or index to insert.
 
-    searchInsert([1,3,5,6], 5)
-    """
+#     searchInsert([1,3,5,6], 5)
+#     """
 
-    lst = nums
-    index = 0
+#     lst = nums
+#     index = 0
     
-    import pdb; pdb.set_trace()
+#     import pdb; pdb.set_trace()
     
-    while len(lst) > 1:
-        midpoint = len(lst)//2
-        if lst[midpoint] > target:
-            lst = lst[:midpoint]
-        else:
-            lst = lst[midpoint:]
-            index += midpoint
+#     while len(lst) > 1:
+#         midpoint = len(lst)//2
+#         if lst[midpoint] > target:
+#             lst = lst[:midpoint]
+#         else:
+#             lst = lst[midpoint:]
+#             index += midpoint
     
-    if lst[0] >= target:
-        return index
+#     if lst[0] >= target:
+#         return index
     
-    if lst[0] < target:
-        return index + 1                                   
+#     if lst[0] < target:
+#         return index + 1                                   
 
 if __name__ == "__main__":
     import doctest
