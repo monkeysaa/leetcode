@@ -223,7 +223,48 @@ begin_time = datetime.datetime.now()
 #         return index
     
 #     if lst[0] < target:
-#         return index + 1                                   
+#         return index + 1    
+
+def maxSubArray(nums):
+    """ LeetCode 53: https://leetcode.com/problems/maximum-subarray/
+
+    Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.
+
+    A subarray is a contiguous part of an array.
+
+    >>> maxSubArray([-2,1,-3,4,-1,2,1,-5,4])
+    6
+
+    >>> maxSubArray([1])
+    1
+
+    >>> maxSubArray([5, 4, -1, 7, 8])
+    23
+
+    >>> maxSubArray([-5, -4, -1, -7, -8])
+    -1
+    """
+    max_sum = max(nums)
+    maybe_max = []
+    curr_sum = 0
+    
+    for num in nums:
+        if maybe_max == [] and num <= 0:
+            continue
+        elif maybe_max == [] and num > 0:
+            maybe_max =[num]
+            curr_sum += num
+        else: # maybe_max isn't empty
+            if curr_sum + num > 0:
+                maybe_max.append(num)
+                curr_sum += num
+            else: 
+                maybe_max = []
+                curr_sum = 0
+        if curr_sum > max_sum:
+            max_sum = curr_sum
+    
+    return max_sum
 
 if __name__ == "__main__":
     import doctest
