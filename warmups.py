@@ -99,7 +99,6 @@ begin_time = datetime.datetime.now()
 
     
 
-# import pdb
 # def merge_sorted(l1, l2, new_head = None):
 #     """Merge two sorted singly-linked lists."""
 
@@ -110,7 +109,6 @@ begin_time = datetime.datetime.now()
 #         return l1
     
 #     else:
-#         pdb.set_trace()
 #         if l1.val >= l2.val:
 #             new_list = l2
 #             new_list.next = merge_sorted(l1, l2.next, new_list)
@@ -225,46 +223,144 @@ begin_time = datetime.datetime.now()
 #     if lst[0] < target:
 #         return index + 1    
 
-def maxSubArray(nums):
-    """ LeetCode 53: https://leetcode.com/problems/maximum-subarray/
+# def maxSubArray(nums):
+#     """ LeetCode 53: https://leetcode.com/problems/maximum-subarray/
 
-    Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.
+#     Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.
 
-    A subarray is a contiguous part of an array.
+#     A subarray is a contiguous part of an array.
 
-    >>> maxSubArray([-2,1,-3,4,-1,2,1,-5,4])
-    6
+#     >>> maxSubArray([-2,1,-3,4,-1,2,1,-5,4])
+#     6
 
-    >>> maxSubArray([1])
+#     >>> maxSubArray([1])
+#     1
+
+#     >>> maxSubArray([5, 4, -1, 7, 8])
+#     23
+
+#     >>> maxSubArray([-5, -4, -1, -7, -8])
+#     -1
+#     """
+#     max_sum = max(nums)
+#     maybe_max = []
+#     curr_sum = 0
+    
+#     for num in nums:
+#         if maybe_max == [] and num <= 0:
+#             continue
+#         elif maybe_max == [] and num > 0:
+#             maybe_max =[num]
+#             curr_sum += num
+#         else: # maybe_max isn't empty
+#             if curr_sum + num > 0:
+#                 maybe_max.append(num)
+#                 curr_sum += num
+#             else: 
+#                 maybe_max = []
+#                 curr_sum = 0
+#         if curr_sum > max_sum:
+#             max_sum = curr_sum
+    
+#     return max_sum
+
+# def plusOne(digits):
+#     if digits[-1] + 1 < 10:
+#         digits[-1] = digits[-1] + 1
+#         return digits
+#     else:
+#         power_of_ten = len(digits) - 1
+#         sum_num = 0
+#         for i, num in enumerate(digits):
+#             sum_num += num * 10**power_of_ten
+#             power_of_ten -= 1
+#         result = sum_num + 1
+#         return [int(char) for char in str(result)]
+
+def is_palindrome(word):
+    """Is the word an anagram of a palindrome?
+
+    >>> is_palindrome("a")
+    True
+
+    >>> is_palindrome("ab")
+    False
+
+    >>> is_palindrome("arceace")
+    False
+
+    >>> is_palindrome("racecar")
+    True
+    """
+
+    midpoint = len(word) // 2
+    if len(word) == 1 or word[:midpoint] == word[:midpoint:-1]:
+            return True
+    return False
+
+def is_anagram_of_palindrome(word):
+    """Is the word an anagram of a palindrome?
+    
+    >>> is_anagram_of_palindrome("a")
+    True
+
+    >>> is_anagram_of_palindrome("ab")
+    False
+
+    >>> is_anagram_of_palindrome("aab")
+    True
+
+    >>> is_anagram_of_palindrome("arceace")
+    True
+
+    >>> is_anagram_of_palindrome("arceaceb")
+    False
+    """
+
+    # for letter in word, are there an even number of letters? 
+    # 1 exception allowed. 
+
+    letter_match = set()
+    for letter in word:
+        if letter in letter_match:
+            letter_match.remove(letter)
+        else:
+            letter_match.add(letter)
+    if len(letter_match) > 1:
+        return False
+    return True
+
+def binary_search(val):
+    """Using binary search, find val in range 1-100. Return # of guesses.
+    
+    >>> binary_search(50)
     1
 
-    >>> maxSubArray([5, 4, -1, 7, 8])
-    23
+    >>> binary_search(25)
+    2
 
-    >>> maxSubArray([-5, -4, -1, -7, -8])
-    -1
+    >>> binary_search(75)
+    2
+
+    >>> binary_search(31) <= 7
+    True
+
+    >>> max([binary_search(i) for i in range(1, 101)])
+    7
     """
-    max_sum = max(nums)
-    maybe_max = []
-    curr_sum = 0
-    
-    for num in nums:
-        if maybe_max == [] and num <= 0:
-            continue
-        elif maybe_max == [] and num > 0:
-            maybe_max =[num]
-            curr_sum += num
-        else: # maybe_max isn't empty
-            if curr_sum + num > 0:
-                maybe_max.append(num)
-                curr_sum += num
-            else: 
-                maybe_max = []
-                curr_sum = 0
-        if curr_sum > max_sum:
-            max_sum = curr_sum
-    
-    return max_sum
+
+    val = input("Pick a number, 1 to 100: ")
+    assert 0 < val < 101, "Val must be between 1-100"
+
+    midpoint = num // 2
+    binary += 
+
+    num_guesses = 0
+
+    return num_guesses
+
+
+            
 
 if __name__ == "__main__":
     import doctest
