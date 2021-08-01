@@ -2,8 +2,6 @@ import pprint
 
 def has_word(node, word, kids, node_to_letter, used_letters):
     """Identify whether neighboring nodes contain word
-    
-    exceptions: 1 letter left is right, next letter wrong
 
     node(tuple) = row, col, zero-indexed e.g. for (0, 2), row = 0, col = 2
 
@@ -20,10 +18,12 @@ def has_word(node, word, kids, node_to_letter, used_letters):
     used_letters = lst of nodes for letters in word, to avoid repetition.
         e.g. used_letters = [(0, 0), (0, 1)]
     """
-    
+    print(node, kids[node])
+    # if node doesn't match next letter in word
     if word[0] != node_to_letter[node]: 
         return False
     
+    # if matches last letter in word
     elif word[0] == node_to_letter[node] and len(word) == 1:
         if node in used_letters:
             return False
@@ -31,20 +31,14 @@ def has_word(node, word, kids, node_to_letter, used_letters):
             return True
     
     else: #letter matches but it's a longer string, we need to recurse
-        print(f'Recurse: {node}')
-        new_used = used_letters.copy() 
-        new_used.append(node)
+        used_letters_cp = used_letters.copy() 
+        used_letters_cp.append(node)
         for kid in kids[node]:
-            if has_word(kid, word[1:], kids, node_to_letter, new_used):
+            if has_word(kid, word[1:], kids, node_to_letter, used_letters_cp):
                 return True
         
         return False
         
-
-    
-
-
-
 
 def exist(board, word):
     """Identify whether a boggle-style word can be found in a grid of letters.
@@ -57,44 +51,54 @@ def exist(board, word):
     letter cell may not be used more than once.
     
     Solution:
-    DFS through graph. If there are two A's, 2 graphs? Or one master node.
+    Create graph with positions as keys. (Positions unique but letters aren't). 
+    Then, DFS through graph, following word from start to finish. 
     
-    Nodes need position & value, and letter not unique. Only position unique. 
-    Each node has at most 4 children. 
-    Build graph in its entirety. 
+    Kids(dict) mapping position as keys to (2-4) neighbor nodes as values
+        eg. kids[(0, 0)] = [(0, 1), (1, 0)]
+        eg. kids[(1, 1)] = [(0, 1), (1, 0), (1, 2), (2, 1)]
     
-    Step1. Make kids dict to identify neighbors
-        kids(dict) = tuple position that maps to its neighbors (2-4)
-        kids[(0, 0)] = [(0, 1), (1, 0)]
-        kids[(1, 1)] = [(0, 1), (1, 0), (1, 2), (2, 1)]
+    Helper dict
+    Node_to_letter(dict) = (row, col) position tuple as key with letter value
+        eg. node_to_letter[(0, 0)] = 'A'
+    
+    Helper functions
+    Remove_non_neighbors(potential_neighbors, board) 
+        Takes in a list of tuples and removes nodes outside the board bounds.
+        Returns nothing
+        eg. remove_non_neighbors([(-1, 0), (0, -1), (1, 0), (0, 1)], board)
+            Returns nothing, but neighbors reduced to: [(1, 0), (0, 1)]
 
-    Step2. Make a node_to_letter dict
-        node_to_letter(dict) = (row, col) position tuple with letter as value
-
-    Step3. Build recursive has_word()
-        has_word(node, word, kids, node_to_letter, used_letters)
-        account for exceptions: 1 letter left is right, next letter wrong
+    Has_word(node, word, kids, node_to_letter, used_letters) does recursive DFS.
+        exceptions: 1 letter left is right, next letter wrong, letter repeated
+        Returns True if word is found in board, else False.
     """
 
     kids = {}
 
-    def find_neighbors(potential_neighbors, board):
-        """Return only those neighbors within the bounds of board."""
+    def remove_non_neighbors(potential_neighbors, board):
+        """Remove false neighbor nodes that fall beyond board coordinates."""
 
-        neighbors = []
+        print(f"  -> DEBUG: potential neihbors: {potential_neighbors}")
         for node in potential_neighbors:
-            if -1 < node[0] < len(board) and -1 < node[1] < len(board[0]):
-                neighbors.append(node)
-        return neighbors
+            print(f"  -> DEBUG: testing {node}: {node[0]} x {node[1]}")
+            if not(-1 < node[0] < len(board) and -1 < node[1] < len(board[0])):
+                print("   -> removing")
+                potential_neighbors.remove(node)
+            else:
+                print("   -> keeping")
 
     for i, row in enumerate(board): 
         for j, col in enumerate(row):
-            true_neighbors = find_neighbors(
-                [(i, j-1), (i, j+1), (i-1, j), (i+1, j)],
-                board,
-            )
+            print(f"DEBUG: Test case: {i} x {j}")
+            neighbors = [(i, j-1), (i, j+1), (i-1, j), (i+1, j)]
+            print(f"DEBUG: Will test ...")
+            pprint.pprint(neighbors)
+            remove_non_neighbors(neighbors, board)
 
-            kids[(i, j)] = true_neighbors
+            kids[(i, j)] = neighbors
+
+    pprint.pprint(kids)
     
     node_to_letter = {}
     root_nodes = []
@@ -104,6 +108,8 @@ def exist(board, word):
         if node_to_letter[kid] == word[0]:
             root_nodes.append(kid)
     
+    print(root_nodes)
+        
     used_letters = []
     for node in root_nodes:
         if has_word(node, word, kids, node_to_letter, used_letters):
