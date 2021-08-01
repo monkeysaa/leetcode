@@ -18,17 +18,13 @@ def has_word(node, word, kids, node_to_letter, used_letters):
     used_letters = lst of nodes for letters in word, to avoid repetition.
         e.g. used_letters = [(0, 0), (0, 1)]
     """
-    print(node, kids[node])
-    # if node doesn't match next letter in word
-    if word[0] != node_to_letter[node]: 
+    # if node doesn't match next letter in word or node already used
+    if word[0] != node_to_letter[node] or node in used_letters: 
         return False
     
     # if matches last letter in word
     elif word[0] == node_to_letter[node] and len(word) == 1:
-        if node in used_letters:
-            return False
-        else:
-            return True
+        return True
     
     else: #letter matches but it's a longer string, we need to recurse
         used_letters_cp = used_letters.copy() 
@@ -79,26 +75,21 @@ def exist(board, word):
     def remove_non_neighbors(potential_neighbors, board):
         """Remove false neighbor nodes that fall beyond board coordinates."""
 
-        print(f"  -> DEBUG: potential neihbors: {potential_neighbors}")
+        neighbors = potential_neighbors.copy()
         for node in potential_neighbors:
-            print(f"  -> DEBUG: testing {node}: {node[0]} x {node[1]}")
             if not(-1 < node[0] < len(board) and -1 < node[1] < len(board[0])):
-                print("   -> removing")
-                potential_neighbors.remove(node)
-            else:
-                print("   -> keeping")
+                neighbors.remove(node)
+
+        return neighbors
 
     for i, row in enumerate(board): 
         for j, col in enumerate(row):
-            print(f"DEBUG: Test case: {i} x {j}")
-            neighbors = [(i, j-1), (i, j+1), (i-1, j), (i+1, j)]
-            print(f"DEBUG: Will test ...")
-            pprint.pprint(neighbors)
-            remove_non_neighbors(neighbors, board)
+            neighbors = remove_non_neighbors(
+                [(i, j-1), (i, j+1), (i-1, j), (i+1, j)], 
+                board,
+            )
 
             kids[(i, j)] = neighbors
-
-    pprint.pprint(kids)
     
     node_to_letter = {}
     root_nodes = []
@@ -107,15 +98,11 @@ def exist(board, word):
         node_to_letter[kid] = board[kid[0]][kid[1]]
         if node_to_letter[kid] == word[0]:
             root_nodes.append(kid)
-    
-    print(root_nodes)
-        
+
     used_letters = []
     for node in root_nodes:
         if has_word(node, word, kids, node_to_letter, used_letters):
             return True
 
     return False
-    
 
-print(exist([["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], "SEE"))
