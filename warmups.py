@@ -277,58 +277,93 @@ begin_time = datetime.datetime.now()
 #         result = sum_num + 1
 #         return [int(char) for char in str(result)]
 
-def is_palindrome(word):
-    """Is the word an anagram of a palindrome?
+# def is_palindrome(word):
+#     """Is the word an anagram of a palindrome?
 
-    >>> is_palindrome("a")
-    True
+#     >>> is_palindrome("a")
+#     True
 
-    >>> is_palindrome("ab")
-    False
+#     >>> is_palindrome("ab")
+#     False
 
-    >>> is_palindrome("arceace")
-    False
+#     >>> is_palindrome("arceace")
+#     False
 
-    >>> is_palindrome("racecar")
-    True
-    """
+#     >>> is_palindrome("racecar")
+#     True
+#     """
 
-    midpoint = len(word) // 2
-    if len(word) == 1 or word[:midpoint] == word[:midpoint:-1]:
-            return True
-    return False
+#     midpoint = len(word) // 2
+#     if len(word) == 1 or word[:midpoint] == word[:midpoint:-1]:
+#             return True
+#     return False
 
-def is_anagram_of_palindrome(word):
-    """Is the word an anagram of a palindrome?
+# def is_anagram_of_palindrome(word):
+#     """Is the word an anagram of a palindrome?
     
-    >>> is_anagram_of_palindrome("a")
-    True
+#     >>> is_anagram_of_palindrome("a")
+#     True
 
-    >>> is_anagram_of_palindrome("ab")
-    False
+#     >>> is_anagram_of_palindrome("ab")
+#     False
 
-    >>> is_anagram_of_palindrome("aab")
-    True
+#     >>> is_anagram_of_palindrome("aab")
+#     True
 
-    >>> is_anagram_of_palindrome("arceace")
-    True
+#     >>> is_anagram_of_palindrome("arceace")
+#     True
 
-    >>> is_anagram_of_palindrome("arceaceb")
-    False
-    """
+#     >>> is_anagram_of_palindrome("arceaceb")
+#     False
+#     """
 
-    # for letter in word, are there an even number of letters? 
-    # 1 exception allowed. 
+#     # for letter in word, are there an even number of letters? 
+#     # 1 exception allowed. 
 
-    letter_match = set()
-    for letter in word:
-        if letter in letter_match:
-            letter_match.remove(letter)
-        else:
-            letter_match.add(letter)
-    if len(letter_match) > 1:
-        return False
-    return True
+#     letter_match = set()
+#     for letter in word:
+#         if letter in letter_match:
+#             letter_match.remove(letter)
+#         else:
+#             letter_match.add(letter)
+#     if len(letter_match) > 1:
+#         return False
+#     return True
+
+
+# def has_more_vowels(word):
+#     """Does word contain more vowels than non-vowels?
+#     >>> has_more_vowels("moose")
+#     True
+
+#     >>> has_more_vowels("mice")
+#     False
+
+#     >>> has_more_vowels("graph")
+#     False
+
+#     >>> has_more_vowels("yay")
+#     False
+
+#     >>> has_more_vowels("Aal")
+#     True
+#     """
+#     # define vowels
+#     # find length of word
+#     # count vowels (use .lower())
+#     # if num vowels > half length of word, return True
+
+#     vowels = {'a', 'e', 'i', 'o', 'u'}
+#     half = len(word)//2
+#     num_vowels = 0
+
+#     for char in word.lower():
+#         if char in vowels:
+#             num_vowels += 1
+    
+#     if num_vowels > half:
+#         return True
+#     return False
 
 def binary_search(val):
     """Using binary search, find val in range 1-100. Return # of guesses.
@@ -358,8 +393,6 @@ def binary_search(val):
     num_guesses = 0
 
     return num_guesses
-
-
             
 
 if __name__ == "__main__":

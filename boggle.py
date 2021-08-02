@@ -1,6 +1,6 @@
 import pprint
 
-def has_word(node, word, kids, node_to_letter, used_letters):
+def has_word(node, word, kids, node_to_letter, letter_to_node, used_nodes):
     """Identify whether neighboring nodes contain word
 
     node(tuple) = row, col, zero-indexed e.g. for (0, 2), row = 0, col = 2
@@ -15,25 +15,41 @@ def has_word(node, word, kids, node_to_letter, used_letters):
     node_to_letter(dict) = (row, col) position tuple with letter as value
         e.g. node_to_letter[(0, 0)] = 'A'
     
-    used_letters = lst of nodes for letters in word, to avoid repetition.
-        e.g. used_letters = [(0, 0), (0, 1)]
+    used_nodes = lst of nodes for letters in word, to avoid repetition.
+        e.g. used_nodes = [(0, 0), (0, 1)]
     """
-    # if node doesn't match next letter in word or node already used
-    if word[0] != node_to_letter[node] or node in used_letters: 
-        return False
+
+    removed_letters = ''
+
+    # INCOMING: node = word[0] by definition
+    i = 0
+
+    while i < len(word):
+        if letter_to_node[word[i+1]] in kids[node]:
+            used_nodes.append(node)
+            node = letter_to_node[word[i+1]]
+            i++
+
+
     
-    # if matches last letter in word
-    elif word[0] == node_to_letter[node] and len(word) == 1:
-        return True
+
+
+    # # if node doesn't match next letter in word or node already used
+    # if word[0] != node_to_letter[node] or node in used_letters: 
+    #     return False
     
-    else: #letter matches but it's a longer string, we need to recurse
-        used_letters_cp = used_letters.copy() 
-        used_letters_cp.append(node)
-        for kid in kids[node]:
-            if has_word(kid, word[1:], kids, node_to_letter, used_letters_cp):
-                return True
+    # # if matches last letter in word
+    # elif word[0] == node_to_letter[node] and len(word) == 1:
+    #     return True
+    
+    # else: #letter matches but it's a longer string, we need to recurse
+    #     used_letters_cp = used_letters.copy() 
+    #     used_letters_cp.append(node)
+    #     for kid in kids[node]:
+    #         if has_word(kid, word[1:], kids, node_to_letter, used_letters_cp):
+    #             return True
         
-        return False
+    #     return False
         
 
 def exist(board, word):
@@ -92,16 +108,18 @@ def exist(board, word):
             kids[(i, j)] = neighbors
     
     node_to_letter = {}
+    letter_to_node = {}
     root_nodes = []
 
     for kid in kids:
+        letter_to_node[board[kid[0]][kid[1]]] = kid
         node_to_letter[kid] = board[kid[0]][kid[1]]
         if node_to_letter[kid] == word[0]:
             root_nodes.append(kid)
 
     used_letters = []
     for node in root_nodes:
-        if has_word(node, word, kids, node_to_letter, used_letters):
+        if has_word(node, word, kids, node_to_letter, letter_to_node, used_letters):
             return True
 
     return False
