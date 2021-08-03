@@ -365,40 +365,80 @@ begin_time = datetime.datetime.now()
 #         return True
 #     return False
 
-def binary_search(val):
-    """Using binary search, find val in range 1-100. Return # of guesses.
+# def binary_search(val):
+#     """Using binary search, find val in range 1-100. Return # of guesses.
     
-    >>> binary_search(50)
-    1
+#     >>> binary_search(50)
+#     1
 
-    >>> binary_search(25)
-    2
+#     >>> binary_search(25)
+#     2
 
-    >>> binary_search(75)
-    2
+#     >>> binary_search(75)
+#     2
 
-    >>> binary_search(31) <= 7
-    True
+#     >>> binary_search(31) <= 7
+#     True
 
-    >>> max([binary_search(i) for i in range(1, 101)])
-    7
-    """
-    import math
-    assert 0 < val < 101, "Val must be between 1-100"
-    guess = 50
-    half = guess//2 #25
+#     >>> max([binary_search(i) for i in range(1, 101)])
+#     7
+#     """
+#     import math
+#     assert 0 < val < 101, "Val must be between 1-100"
+#     guess = 50
+#     half = guess//2 #25
 
-    num_guesses = 1
+#     num_guesses = 1
 
-    while guess != val: #50, 75
-        num_guesses += 1 #1
-        if guess > val:
-            guess -= half #
-        elif guess < val: 
-            guess += half #75
-        half = math.ceil(half/2) #
+#     while guess != val: #50, 75
+#         num_guesses += 1 #1
+#         if guess > val:
+#             guess -= half #
+#         elif guess < val: 
+#             guess += half #75
+#         half = math.ceil(half/2) #
         
-    return num_guesses
+#     return num_guesses
+
+def compress_string(my_str):
+    """Return a string, using notation for repeated chars in strings.
+    
+    # >>> compress_string('aabbaabb')
+    # 'a2b2a2b2'
+
+    # >>> compress_string('abc')
+    # 'abc'
+
+    # >>> compress_string('abacus')
+    # 'abacus'
+
+    >>> compress_string('go moooo...')
+    'go mo4.3'
+
+    # >>> compress_string('balloonicorn')
+    # 'bal2o2nicorn'
+    """
+
+    last_char = ''
+    counter = 1 
+    compressed_str = ''
+    
+    for char in my_str:
+        if char == last_char:
+            counter += 1
+            if counter == 2:
+                compressed_str += str(counter)
+            else: 
+                compressed_str = compressed_str[:-1] + str(counter)
+        else:
+            if counter > 1:
+                counter = 1
+            last_char = char
+            compressed_str += char
+            
+    return compressed_str
+
+
             
 
 if __name__ == "__main__":
