@@ -421,22 +421,22 @@ def compress_string(my_str):
 
     last_char = ''
     counter = 1 
-    compressed_str = ''
+    compressed_str = []
     
     for char in my_str:
         if char == last_char:
             counter += 1
             if counter == 2:
-                compressed_str += str(counter)
+                compressed_str.append(str(counter))
             else: 
-                compressed_str = compressed_str[:-1] + str(counter)
+                compressed_str[-1] = str(counter)
         else:
             if counter > 1:
                 counter = 1
             last_char = char
-            compressed_str += char
+            compressed_str.append(char)
             
-    return compressed_str
+    return ''.join(compressed_str)
 
 
             
