@@ -383,15 +383,21 @@ def binary_search(val):
     >>> max([binary_search(i) for i in range(1, 101)])
     7
     """
-
-    val = input("Pick a number, 1 to 100: ")
+    import math
     assert 0 < val < 101, "Val must be between 1-100"
+    guess = 50
+    half = guess//2 #25
 
-    midpoint = num // 2
-    binary += 
+    num_guesses = 1
 
-    num_guesses = 0
-
+    while guess != val: #50, 75
+        num_guesses += 1 #1
+        if guess > val:
+            guess -= half #
+        elif guess < val: 
+            guess += half #75
+        half = math.ceil(half/2) #
+        
     return num_guesses
             
 
